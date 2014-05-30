@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"path": "/home/ming/XP/tmp/Project/51/key"
+		}
+	],
+	"settings":
+	{
+		"sublimeclang_options":
+		[
+			"-I/home/ming/src/C51/INC"
+		]
+	}
+}
