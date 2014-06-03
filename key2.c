@@ -76,19 +76,19 @@ void independent_key_scan_j(void)
 		*/
 		if (keystu==0x00)					//000
 		{
-			if (keytime>=5000) 
+			if (keytime>=500) 
 			{
 				keytime=0;
-				independent_key_check();
+				// independent_key_check();
 			}
 		}
 		else if (keystu==0x02)				//010
 		{
 			keystu&=~0x02;					//变为000
-			if (keytime>=5000) 
+			if (keytime>=500) 
 			{
 				keytime=0;
-				independent_key_check();
+				// independent_key_check();
 			}
 		}
 		else if (keystu==0x05) 				//101
@@ -121,7 +121,7 @@ void independent_tim0_key_scan_j(void)
 	/*
 	**如果keystu是000的话就加时间，每2ms就一次
 	*/
-	if ((keystu&0x07)==0&&keytime<5000)
+	if ((keystu&0x07)==0&&keytime<500)
 	{
 		keytime++;
 	}
