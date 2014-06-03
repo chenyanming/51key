@@ -10,6 +10,7 @@ void debug_upside();
 unsigned char feedback_start0=0, feedback_start1=0;
 unsigned int num=0, second=0, feedback0=0, feedback1=0, feedback2=0, feedback3=0, feedback4=0, feedback5=0;
 unsigned char LED=0, SW=0;
+unsigned char time=0;
 
 sbit OE = P3^4;			//使能端，低电平有效，控制灯和继电器
 sbit LE_Led = P3^7;		//锁存端，低电平锁存，控制灯
@@ -43,39 +44,55 @@ void main()
 			switch(keyname_i)
 			{
 				case 0x01:
-					SW |= (1<<0);
-					SW &=~ (1<<1);
-					SW &=~ (1<<2);
+					SW ^= (1<<0);
+					// SW &=~ (1<<1);
+					// SW &=~ (1<<2);
 					show();
-					LED |= (1<<0);
-					LED &=~ (1<<1);
-					LED &=~ (1<<2);
+					LED ^= (1<<0);
+					// LED &=~ (1<<1);
+					// LED &=~ (1<<2);
 					show();
 					// feedback_start0 = 1;//启动反馈检测
 					break;
 				case 0x02:
-					SW &=~ (1<<0);
-					SW |= (1<<1);
-					SW &=~ (1<<2);
+					// SW &=~ (1<<0);
+					SW ^= (1<<1);
+					// SW &=~ (1<<2);
 					show();
-					LED &=~ (1<<0);
-					LED |= (1<<1);
-					LED &=~ (1<<2);
+					// LED &=~ (1<<0);
+					LED ^= (1<<1);
+					// LED &=~ (1<<2);
 					show();
 					// feedback_start0 = 2;
 					break;
 				case 0x03:
-					SW &=~ (1<<0);
-					SW &=~ (1<<1);
-					SW |= (1<<2);
-					show();
-					LED &=~ (1<<0);
-					LED &=~ (1<<1);
-					LED |= (1<<2);
-					show();
+					if (time == 0)
+					{
+						time++;
+						SW |= (1<<0);
+						SW |= (1<<1);
+						// SW |= (1<<2);
+						show();
+						LED |= (1<<0);
+						LED |= (1<<1);
+						LED |= (1<<2);
+						show();
+					}
+					else 
+					{
+						time = 0;
+						SW &=~ (1<<0);
+						SW &=~ (1<<1);
+						SW &=~ (1<<2);
+						show();
+						LED &=~ (1<<0);
+						LED &=~ (1<<1);
+						LED &=~(1<<2);
+						show();
+					}
 					// feedback_start0 = 3;
 					break;
-
+				#if 0
 				case 0x04:
 					SW |= (1<<3);
 					SW &=~ (1<<4);
@@ -109,11 +126,13 @@ void main()
 					show();
 					// feedback_start1 = 3;
 					break;
+				#endif
 				default:
 					break;
 			}
 		}
 
+		#if 0
 		if ((keyname_j&0x80) == 0x80)
 		{
 			keyname_j&=~0x80;
@@ -190,6 +209,7 @@ void main()
 					break;
 			}
 		}
+		#endif
 
 		/* 作用：测试板上的小按键测试程序 */
 		/* 判断小按键是否被按下,如果按下了，代表线路不通*/
